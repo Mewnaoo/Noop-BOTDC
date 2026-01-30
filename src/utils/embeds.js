@@ -5,42 +5,42 @@ const { PermissionFlagsBits } = require('discord.js');
 function createSetupEmbed(interfaceType = 'standard') {
   const embed = new EmbedBuilder()
     .setColor('#5865F2') // Discord blurple color
-    .setTitle('🎮 TempVoice Setup')
-    .setDescription('Welcome to TempVoice! This powerful system allows users to create and manage their own temporary voice channels.')
+    .setTitle('👾 Noop Setup')
+    .setDescription('ยินดีต้อนรับสู่ Noop! ระบบอันทรงพลังนี้ช่วยให้ผู้ใช้สามารถสร้างและจัดการช่องเสียงชั่วคราวของตนเองได้.')
     .addFields(
       { 
-        name: '🔧 Setup Complete', 
-        value: 'The TempVoice system has been successfully configured in this server.', 
+        name: '🔧 การตั้งค่าเสร็จสมบูรณ์', 
+        value: 'ระบบ Noop ได้รับการตั้งค่าในเซิร์ฟเวอร์นี้เรียบร้อยแล้ว.', 
         inline: false 
       },
       { 
-        name: '📋 Instructions', 
+        name: '📋 คำแนะนำ', 
         value: 
-          '1. Join the designated creation channel\n' +
-          '2. A personal voice channel will be created for you\n' +
-          '3. Use the control panel to customize your channel\n' +
-          '4. The channel will be deleted when everyone leaves',
+          '1. เข้าร่วมช่องทางการสร้างสรรค์ที่กำหนดไว้\n' +
+          '2. จะมีการสร้างช่องเสียงส่วนตัวสำหรับคุณ\n' +
+          '3. ใช้แผงควบคุมเพื่อปรับแต่งช่องของคุณ\n' +
+          '4. ช่องนี้จะถูกลบเมื่อทุกคนออกจากช่องไปแล้ว',
         inline: false 
       },
       {
-        name: '✨ Features',
+        name: '✨ คุณสมบัติ',
         value:
-          '• Rename your channel\n' +
-          '• Set user limits\n' +
-          '• Control privacy settings\n' +
-          '• Manage user permissions\n' +
-          '• Create text threads\n' +
-          '• And much more!',
+          '• เปลี่ยนชื่อช่องของคุณ\n' +
+          '• กำหนดขีดจำกัดผู้ใช้\n' +
+          '• ควบคุมการตั้งค่าความเป็นส่วนตัว\n' +
+          '• จัดการสิทธิ์การใช้งานของผู้ใช้\n' +
+          '• สร้างกระทู้สนทนา\n' +
+          '• และอื่นๆ อีกมากมาย!',
         inline: false
       }
     )
     .setTimestamp()
-    .setFooter({ text: 'TempVoice • Setup Complete', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'Noop • Setup Complete', iconURL: 'https://i.imgur.com/W6tg6FM.jpeg' });
 
-  if (interfaceType === 'advanced') {
+  if (interfaceType === 'Advanced') {
     embed.addFields({
-      name: '⚙️ Advanced Mode',
-      value: 'This server is using the advanced interface with additional features and customization options.',
+      name: '⚙️ โหมดขั้นสูง',
+      value: 'เซิร์ฟเวอร์นี้ใช้ส่วนต่อประสานขั้นสูงที่มีคุณสมบัติเพิ่มเติมและตัวเลือกการปรับแต่ง.',
       inline: false
     });
   }
@@ -51,13 +51,13 @@ function createSetupEmbed(interfaceType = 'standard') {
 // Setup buttons
 function createSetupButtons() {
   const setupButton = new ButtonBuilder()
-    .setCustomId('setup_tempvoice')
+    .setCustomId('setup_Noop')
     .setLabel('Standard Setup')
     .setStyle(ButtonStyle.Primary)
     .setEmoji('🎮');
 
   const setupAdvancedButton = new ButtonBuilder()
-    .setCustomId('setup_tempvoice_original')
+    .setCustomId('setup_Noop_original')
     .setLabel('Advanced Setup')
     .setStyle(ButtonStyle.Success)
     .setEmoji('⚙️');
@@ -69,10 +69,10 @@ function createSetupButtons() {
 function createInterfaceEmbed() {
   return new EmbedBuilder()
     .setColor('#5865F2') // Discord blurple color
-    .setTitle('🎮 TempVoice Control Panel')
-    .setDescription('Welcome to your voice channel control panel! Use the buttons below to customize your temporary voice channel experience.')
+    .setTitle('👾 Noop Control Panel')
+    .setDescription('ยินดีต้อนรับสู่แผงควบคุมช่องเสียงของคุณ! ใช้ปุ่มด้านล่างเพื่อปรับแต่งประสบการณ์การใช้งานช่องเสียงชั่วคราวของคุณ.')
     .setTimestamp()
-    .setFooter({ text: 'Click the buttons below to manage your voice channel', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'คลิกปุ่มด้านล่างเพื่อจัดการช่องสัญญาณเสียงของคุณ', iconURL: 'https://i.imgur.com/W6tg6FM.jpeg' });
 }
 
 // Interface buttons
@@ -166,32 +166,32 @@ function createInterfaceButtons() {
 function createVoiceControlEmbed(channel, owner) {
   return new EmbedBuilder()
     .setColor('#5865F2') // Discord blurple color
-    .setTitle('🎮 Voice Channel Controls')
-    .setDescription(`Welcome to your voice channel control panel! This panel allows you to manage your temporary voice channel **${channel.name}**.`)
+    .setTitle('🍼 Room Voice Controls')
+    .setDescription(`ยินดีต้อนรับสู่แผงควบคุมช่องเสียงของคุณ! แผงควบคุมนี้ช่วยให้คุณจัดการช่องเสียงชั่วคราวของคุณได้ **${channel.name}**.`)
     .addFields(
       { 
-        name: '👑 Channel Owner', 
+        name: '👑 เจ้าของช่อง', 
         value: `<@${owner.id}>`, 
         inline: true 
       },
       { 
-        name: '👥 Current Users', 
+        name: '👥 ผู้ใช้งานปัจจุบัน', 
         value: `${channel.members.size} members`, 
         inline: true 
       },
       { 
-        name: '🔒 Privacy Status', 
-        value: channel.permissionsFor(channel.guild.roles.everyone).has(PermissionFlagsBits.Connect) ? '🔓 Public' : '🔐 Private', 
+        name: '🔒 สถานะความเป็นส่วนตัว', 
+        value: channel.permissionsFor(channel.guild.roles.everyone).has(PermissionFlagsBits.Connect) ? '🔓 สาธารณะ' : '🔐 ส่วนตัว', 
         inline: true 
       },
       {
-        name: '💡 Available Actions',
-        value: 'Use the buttons below to manage your voice channel. You can rename it, set user limits, manage privacy, and more!',
+        name: '💡 การดำเนินการที่มีให้เลือก',
+        value: 'ใช้ปุ่มด้านล่างเพื่อจัดการช่องเสียงของคุณ คุณสามารถเปลี่ยนชื่อ กำหนดจำนวนผู้ใช้ จัดการความเป็นส่วนตัว และอื่นๆ ได้!',
         inline: false
       }
     )
     .setTimestamp()
-    .setFooter({ text: 'TempVoice • Channel Controls', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'Noop • Channel Controls', iconURL: 'https://i.imgur.com/W6tg6FM.jpeg' });
 }
 
 // Helper function to format time
@@ -311,51 +311,51 @@ function createWarningEmbed(title, description) {
 function createHelpEmbed() {
   return new EmbedBuilder()
     .setColor('#5865F2') // Discord blurple color
-    .setTitle('📚 TempVoice Help Guide')
-    .setDescription('Welcome to TempVoice! Here\'s how to use the voice channel control system:')
+    .setTitle('📚 Noop Help Guide')
+    .setDescription('ยินดีต้อนรับสู่ Noop! นี่คือวิธีการใช้งานระบบควบคุมช่องเสียง:')
     .addFields(
       { 
-        name: '🎮 Basic Controls', 
+        name: '👾 การควบคุมพื้นฐาน', 
         value: 
-          '✏️ **Name** - Customize your channel name\n' +
-          '👥 **Limit** - Set user capacity (0 = unlimited)\n' +
-          '🔐 **Privacy** - Toggle public/private access\n' +
-          '⏳ **Waiting Room** - Create a waiting area for users\n' +
-          '💬 **Thread** - Create a text thread for your voice channel',
+          '✏️ **Name** - ปรับแต่งชื่อช่องของคุณ\n' +
+          '👥 **Limit** - กำหนดความจุของผู้ใช้ (0 = ไม่จำกัด)\n' +
+          '🔐 **Privacy** - สลับการเข้าถึงแบบสาธารณะ/ส่วนตัว\n' +
+          '⏳ **Waiting Room** - สร้างพื้นที่รอสำหรับผู้ใช้งาน\n' +
+          '💬 **Thread** - สร้างหัวข้อสนทนาข้อความสำหรับช่องสนทนาเสียงของคุณ',
         inline: false 
       },
       { 
-        name: '👥 User Management', 
+        name: '👥 การจัดการผู้ใช้', 
         value: 
-          '✅ **Trust** - Give users special permissions in your channel\n' +
-          '❌ **Untrust** - Remove special permissions\n' +
-          '📩 **Invite** - Send invites to specific users\n' +
-          '🚪 **Kick** - Remove users from your channel\n' +
-          '🚫 **Block** - Prevent specific users from joining\n' +
-          '🔓 **Unblock** - Remove user blocks',
+          '✅ **Trust** - ให้สิทธิ์การใช้งานพิเศษแก่ผู้ใช้ในช่องของคุณ\n' +
+          '❌ **Untrust** - ลบสิทธิ์พิเศษออก\n' +
+          '📩 **Invite** - ส่งคำเชิญไปยังผู้ใช้ที่ระบุ\n' +
+          '🚪 **Kick** - ลบผู้ใช้ออกจากช่องของคุณ\n' +
+          '🚫 **Block** - ป้องกันไม่ให้ผู้ใช้บางรายเข้าร่วม\n' +
+          '🔓 **Unblock** - ลบการบล็อกผู้ใช้',
         inline: false 
       },
       { 
-        name: '⚙️ Advanced Settings', 
+        name: '⚙️ การตั้งค่าขั้นสูง', 
         value: 
-          '🌍 **Region** - Change voice region for better connection\n' +
-          '👑 **Claim** - Take ownership of inactive channels\n' +
-          '🔄 **Transfer** - Give ownership to another user\n' +
-          '🗑️ **Delete** - Remove your channel completely',
+          '🌍 **Region** - เปลี่ยนภูมิภาคเสียงเพื่อการเชื่อมต่อที่ดีขึ้น\n' +
+          '👑 **Claim** - รับช่วงดูแลช่องทางที่ไม่ได้ใช้งาน\n' +
+          '🔄 **Transfer** - มอบสิทธิ์การเป็นเจ้าของให้กับผู้ใช้รายอื่น\n' +
+          '🗑️ **Delete** - ลบช่องของคุณออกไปโดยสมบูรณ์',
         inline: false 
       },
       {
-        name: '💡 Tips',
+        name: '💡 เคล็ดลับ',
         value: 
-          '• You can only manage channels you own\n' +
-          '• Trusted users can invite others but cannot change settings\n' +
-          '• Channels are automatically deleted when empty\n' +
-          '• Use dropdowns to select users for actions like trust/block',
+          '• คุณสามารถจัดการได้เฉพาะช่องที่คุณเป็นเจ้าของเท่านั้น\n' +
+          '• ผู้ใช้ที่ได้รับอนุญาตสามารถเชิญผู้อื่นได้ แต่ไม่สามารถเปลี่ยนแปลงการตั้งค่าได้\n' +
+          '• ช่องต่างๆ จะถูกลบโดยอัตโนมัติเมื่อว่างเปล่า\n' +
+          '• ใช้เมนูแบบดรอปดาวน์เพื่อเลือกผู้ใช้สำหรับการดำเนินการต่างๆ เช่น การอนุญาต/การบล็อก',
         inline: false
       }
     )
     .setTimestamp()
-    .setFooter({ text: 'TempVoice • Help Guide', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'Noop • Help Guide', iconURL: 'https://i.imgur.com/W6tg6FM.jpeg' });
 }
 
 // Command help embed
@@ -368,7 +368,7 @@ function createCommandHelpEmbed(commandName, description, usage, examples = []) 
       { name: '📝 Usage', value: `\`\`\`${usage}\`\`\``, inline: false }
     )
     .setTimestamp()
-    .setFooter({ text: 'TempVoice • Command Help', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'Noop • Command Help', iconURL: 'https://i.imgur.com/W6tg6FM.jpeg' });
 
   if (examples.length > 0) {
     embed.addFields({ 
@@ -385,45 +385,45 @@ function createCommandHelpEmbed(commandName, description, usage, examples = []) 
 function createRegionSelectionEmbed() {
   return new EmbedBuilder()
     .setColor('#5865F2') // Discord blurple color
-    .setTitle('🌍 Voice Region Selection')
-    .setDescription('Select a voice region to optimize your connection quality. Choose the region closest to you or your members for the best experience.')
+    .setTitle('🌍 การเลือกภูมิภาคเสียง')
+    .setDescription('เลือกภูมิภาคเสียงเพื่อเพิ่มประสิทธิภาพคุณภาพการเชื่อมต่อของคุณ เลือกภูมิภาคที่ใกล้กับคุณหรือสมาชิกของคุณมากที่สุดเพื่อประสบการณ์ที่ดีที่สุด.')
     .addFields(
       { 
-        name: '🌎 Americas', 
+        name: '🌎 ทวีปอเมริกา', 
         value: 
-          '🇺🇸 **US West** - Western United States\n' +
-          '🇺🇸 **US East** - Eastern United States\n' +
-          '🇺🇸 **US Central** - Central United States\n' +
-          '🇧🇷 **Brazil** - South America',
+          '🇺🇸 **US West** - ภาคตะวันตกของสหรัฐอเมริกา\n' +
+          '🇺🇸 **US East** - ภาคตะวันออกของสหรัฐอเมริกา\n' +
+          '🇺🇸 **US Central** - ภาคกลางของสหรัฐอเมริกา\n' +
+          '🇧🇷 **Brazil** - อเมริกาใต้',
         inline: true 
       },
       { 
-        name: '🌍 Europe & Africa', 
+        name: '🌍 ยุโรปและแอฟริกา', 
         value: 
-          '🇬🇧 **London** - United Kingdom\n' +
-          '🇪🇺 **Europe** - Central Europe\n' +
-          '🇷🇺 **Russia** - Eastern Europe\n' +
-          '🇿🇦 **South Africa** - Africa',
+          '🇬🇧 **London** - สหราชอาณาจักร\n' +
+          '🇪🇺 **Europe** - ยุโรปกลาง\n' +
+          '🇷🇺 **Russia** - ยุโรปตะวันออก\n' +
+          '🇿🇦 **South Africa** - แอฟริกา',
         inline: true 
       },
       { 
-        name: '🌏 Asia & Oceania', 
+        name: '🌏 เอเชียและโอเชียเนีย', 
         value: 
-          '🇯🇵 **Japan** - Eastern Asia\n' +
-          '🇰🇷 **South Korea** - Eastern Asia\n' +
-          '🇮🇳 **India** - Southern Asia\n' +
-          '🇦🇺 **Sydney** - Australia/Oceania\n' +
-          '🇸🇬 **Singapore** - Southeast Asia',
+          '🇯🇵 **Japan** - เอเชียตะวันออก\n' +
+          '🇰🇷 **South Korea** - เอเชียตะวันออก\n' +
+          '🇮🇳 **India** - เอเชียใต้\n' +
+          '🇦🇺 **Sydney** - ออสเตรเลีย/โอเชียเนีย\n' +
+          '🇸🇬 **Singapore** - เอเชียตะวันออกเฉียงใต้',
         inline: true 
       },
       {
-        name: '💡 Tips',
-        value: 'If you experience connection issues, try selecting a region closer to the majority of your members. You can change this setting at any time.',
+        name: '💡 เคล็ดลับ',
+        value: 'หากคุณประสบปัญหาการเชื่อมต่อ โปรดลองเลือกภูมิภาคที่อยู่ใกล้กับสมาชิกส่วนใหญ่ของคุณ คุณสามารถเปลี่ยนการตั้งค่านี้ได้ตลอดเวลา.',
         inline: false
       }
     )
     .setTimestamp()
-    .setFooter({ text: 'Select a region from the dropdown menu below', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setFooter({ text: 'เลือกภูมิภาคจากเมนูแบบเลื่อนลงด้านล่าง', iconURL: 'https://i.imgur.com/W6tg6FM.jpeg' });
 }
 
 module.exports = {

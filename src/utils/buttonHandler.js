@@ -87,22 +87,22 @@ async function handleButtonInteraction(interaction) {
       default:
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Unknown Button', 
-            `The button with ID "${customId}" is not recognized or implemented.`
+            'ปุ่มที่ไม่รู้จัก', 
+            `ปุ่มที่มีรหัสประจำตัว "${customId}" ไม่ได้รับการยอมรับหรือนำไปใช้.`
           )],
           ephemeral: true
         });
     }
   } catch (error) {
-    console.error(`Error handling button interaction: ${customId}`, error);
+    console.error(`การจัดการข้อผิดพลาด การโต้ตอบปุ่มn: ${customId}`, error);
     
     try {
       // Check if the interaction has already been replied to
       if (interaction.replied || interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Button Error', 
-            'There was an error while processing this interaction!',
+            'ข้อผิดพลาดของปุ่ม', 
+            'เกิดข้อผิดพลาดขณะประมวลผลการโต้ตอบนี้!',
             error.message
           )],
           ephemeral: true
@@ -110,15 +110,15 @@ async function handleButtonInteraction(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Button Error', 
-            'There was an error while processing this interaction!',
+            'ข้อผิดพลาดของปุ่ม', 
+            'เกิดข้อผิดพลาดขณะประมวลผลการโต้ตอบนี้!',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error(`Failed to send error response for button ${customId}:`, replyError);
+      console.error(`ไม่สามารถส่งการตอบกลับข้อผิดพลาดสำหรับปุ่มได้ ${customId}:`, replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -133,8 +133,8 @@ async function handleSetupTempVoice(interaction) {
   if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
     return interaction.reply({
       embeds: [createErrorEmbed(
-        'Permission Denied', 
-        'You need Administrator permissions to set up TempVoice.'
+        'ไม่ได้รับอนุญาต', 
+        'คุณต้องมีสิทธิ์ผู้ดูแลระบบในการติดตั้ง Noop.'
       )],
       ephemeral: true
     });
@@ -149,12 +149,12 @@ async function handleSetupTempVoice(interaction) {
     if (setupStatus.valid) {
       return interaction.editReply({
         embeds: [createInfoEmbed(
-          'Already Set Up', 
-          'TempVoice is already set up in this server.',
+          'ตั้งค่าเรียบร้อยแล้ว', 
+          'Noop ได้ถูกตั้งค่าไว้ในเซิร์ฟเวอร์นี้เรียบร้อยแล้ว.',
           [
             { 
-              name: 'Current Setup', 
-              value: `Category: <#${setupStatus.settings.categoryId}>\nCreator Channel: <#${setupStatus.settings.creatorChannelId}>\nInterface Channel: <#${setupStatus.settings.interfaceChannelId}>`, 
+              name: 'การตั้งค่าปัจจุบัน', 
+              value: `หมวดหมู่: <#${setupStatus.settings.categoryId}>\nช่องครีเอเตอร์: <#${setupStatus.settings.creatorChannelId}>\nช่องอินเทอร์เฟซ: <#${setupStatus.settings.interfaceChannelId}>`, 
               inline: false 
             }
           ]
@@ -163,12 +163,12 @@ async function handleSetupTempVoice(interaction) {
       });
     } else {
       // If setup is invalid, clean it up
-      if (setupStatus.reason !== 'No settings found') {
+      if (setupStatus.reason !== 'ไม่พบการตั้งค่าใดๆ') {
         await cleanupInvalidSetup(guild);
         await interaction.editReply({
           embeds: [createWarningEmbed(
-            'Invalid Setup Cleaned', 
-            `Previous setup was invalid (${setupStatus.reason}). It has been cleaned up. Please run the command again to set up TempVoice.`
+            'การตั้งค่าที่ไม่ถูกต้องถูกล้างออกแล้ว', 
+            `การตั้งค่าก่อนหน้านี้ไม่ถูกต้อง (${setupStatus.reason}). ระบบได้ทำการล้างข้อมูลเรียบร้อยแล้ว โปรดเรียกใช้คำสั่งอีกครั้งเพื่อตั้งค่า Noop.`
           )],
           ephemeral: true
         });
@@ -178,7 +178,7 @@ async function handleSetupTempVoice(interaction) {
 
     // Create TempVoice category
     const category = await guild.channels.create({
-      name: 'TempVoice',
+      name: 'NoopVoice',
       type: ChannelType.GuildCategory,
       permissionOverwrites: [
         {
@@ -199,7 +199,7 @@ async function handleSetupTempVoice(interaction) {
 
     // Create Creator Channel
     const creatorChannel = await guild.channels.create({
-      name: '➕ Create Channel',
+      name: '``﹒✸﹐กดเพื่อสรางห้อง﹒🐬﹐``',
       type: ChannelType.GuildVoice,
       parent: category.id,
       permissionOverwrites: [
@@ -222,7 +222,7 @@ async function handleSetupTempVoice(interaction) {
 
     // Create Interface Channel
     const interfaceChannel = await guild.channels.create({
-      name: '🔊 Interface',
+      name: '``﹒✸﹐ตั้งค่าห้อง﹒🌷﹐',
       type: ChannelType.GuildText,
       parent: category.id,
       permissionOverwrites: [
@@ -281,12 +281,12 @@ async function handleSetupTempVoice(interaction) {
 
     await interaction.editReply({
       embeds: [createSuccessEmbed(
-        'Setup Complete', 
-        'TempVoice has been set up successfully!',
+        'การตั้งค่าเสร็จสมบูรณ์', 
+        'Noop ได้รับการตั้งค่าเรียบร้อยแล้ว!',
         [
           { 
-            name: 'Setup Details', 
-            value: `Category: ${category.name}\nCreator Channel: ${creatorChannel.name}\nInterface Channel: ${interfaceChannel.name}\nInterface Type: ${interfaceType === 'original' ? 'Original' : 'Standard'}`, 
+            name: 'รายละเอียดการตั้งค่า', 
+            value: `หมวดหมู่: ${category.name}\nช่องครีเอเตอร์: ${creatorChannel.name}\nช่องอินเทอร์เฟซ: ${interfaceChannel.name}\nประเภทอินเทอร์เฟซ: ${interfaceType === 'original' ? 'Original' : 'Standard'}`, 
             inline: false 
           }
         ]
@@ -294,12 +294,11 @@ async function handleSetupTempVoice(interaction) {
       ephemeral: true
     });
   } catch (error) {
-    console.error('Error setting up TempVoice:', error);
+    console.error('เกิดข้อผิดพลาดในการตั้งค่า Noop:', error);
     await interaction.editReply({
       embeds: [createErrorEmbed(
-        'Setup Failed', 
-        'An error occurred while setting up TempVoice. Please try again later.',
-        error.message
+        'การตั้งค่าล้มเหลว', 
+        'เกิดข้อผิดพลาดขณะตั้งค่า Noop โปรดลองใหม่อีกครั้งในภายหลัง.',
       )],
       ephemeral: true
     });
@@ -314,8 +313,8 @@ async function handleNewCreator(interaction) {
   if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
     return interaction.reply({
       embeds: [createErrorEmbed(
-        'Permission Denied', 
-        'You need Administrator permissions to create a new creator channel.'
+        'ไม่ได้รับอนุญาต', 
+        'คุณต้องมีสิทธิ์ผู้ดูแลระบบจึงจะสามารถสร้างช่องครีเอเตอร์ใหม่ได้.'
       )],
       ephemeral: true
     });
@@ -330,8 +329,8 @@ async function handleNewCreator(interaction) {
     if (!setupStatus.valid) {
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'Setup Required', 
-          'TempVoice is not set up in this server. Please run the `/setup` command first.'
+          'ต้องตั้งค่าก่อน', 
+          'Noop ยังไม่ได้ติดตั้งในเซิร์ฟเวอร์นี้ โปรดเรียกใช้คำสั่ง `/setup` ก่อน.'
         )],
         ephemeral: true
       });
@@ -343,8 +342,8 @@ async function handleNewCreator(interaction) {
     if (!category) {
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'Category Not Found', 
-          'The TempVoice category could not be found. Please run the `/setup` command again.'
+          'ไม่พบหมวดหมู่', 
+          'ไม่พบหมวดหมู่ Noop โปรดเรียกใช้คำสั่ง `/setup` อีกครั้ง.'
         )],
         ephemeral: true
       });
@@ -352,7 +351,7 @@ async function handleNewCreator(interaction) {
 
     // Create Creator Channel
     const creatorChannel = await guild.channels.create({
-      name: '➕ Create Channel',
+      name: '``﹒✸﹐สร้างห้องอัตโนมัติ﹒🐬﹐``',
       type: ChannelType.GuildVoice,
       parent: category.id,
       permissionOverwrites: [
@@ -379,24 +378,24 @@ async function handleNewCreator(interaction) {
 
     await interaction.editReply({
       embeds: [createSuccessEmbed(
-        'Creator Channel Added', 
-        'A new creator channel has been added to the TempVoice category.',
+        'เพิ่มช่องครีเอเตอร์แล้ว', 
+        'มีการเพิ่มช่องครีเอเตอร์ใหม่ในหมวดหมู่ Noop แล้ว.',
         [
           { 
-            name: 'Channel Details', 
-            value: `Name: ${creatorChannel.name}\nCategory: ${category.name}`, 
-            inline: false 
+            name: 'รายละเอียดช่อง', 
+            value: `ชื่อ: ${creatorChannel.name}\nหมวดหมู่: ${category.name}`, 
+            inline: false
           }
         ]
       )],
       ephemeral: true
     });
   } catch (error) {
-    console.error('Error creating new creator channel:', error);
+    console.error('เกิดข้อผิดพลาดในการสร้างช่องครีเอเตอร์ใหม่:', error);
     await interaction.editReply({
       embeds: [createErrorEmbed(
-        'Creation Failed', 
-        'An error occurred while creating a new creator channel. Please try again later.',
+        'การสร้างล้มเหลว', 
+        'เกิดข้อผิดพลาดขณะสร้างช่องครีเอเตอร์ใหม่ โปรดลองใหม่อีกครั้งในภายหลัง.',
         error.message
       )],
       ephemeral: true
@@ -412,8 +411,8 @@ async function handleNewInterface(interaction) {
   if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
     return interaction.reply({
       embeds: [createErrorEmbed(
-        'Permission Denied', 
-        'You need Administrator permissions to create a new interface message.'
+        'ไม่ได้รับอนุญาต', 
+        'คุณต้องมีสิทธิ์ผู้ดูแลระบบจึงจะสามารถสร้างข้อความอินเทอร์เฟซใหม่ได้.'
       )],
       ephemeral: true
     });
@@ -441,8 +440,8 @@ async function handleNewInterface(interaction) {
     if (!interfaceChannel) {
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'The interface channel could not be found. Please run the `/setup` command again.'
+          'ต้องตั้งค่าก่อน', 
+          'Noop ยังไม่ได้ติดตั้งในเซิร์ฟเวอร์นี้ โปรดเรียกใช้คำสั่ง `/setup`.'
         )],
         ephemeral: true
       });
@@ -478,12 +477,12 @@ async function handleNewInterface(interaction) {
 
     await interaction.editReply({
       embeds: [createSuccessEmbed(
-        'Interface Created', 
-        'A new interface message has been created.',
+        'สร้างอินเทอร์เฟซ', 
+        'มีการสร้างข้อความอินเทอร์เฟซใหม่แล้ว.',
         [
           { 
-            name: 'Channel Details', 
-            value: `Interface Channel: ${interfaceChannel.name}`, 
+            name: 'รายละเอียดช่อง', 
+            value: `ช่องอินเทอร์เฟซ: ${interfaceChannel.name}`, 
             inline: false 
           }
         ]
@@ -491,11 +490,11 @@ async function handleNewInterface(interaction) {
       ephemeral: true
     });
   } catch (error) {
-    console.error('Error creating new interface message:', error);
+    console.error('ข้อความแสดงข้อผิดพลาดในการสร้างอินเทอร์เฟซใหม่:', error);
     await interaction.editReply({
       embeds: [createErrorEmbed(
-        'Creation Failed', 
-        'An error occurred while creating a new interface message. Please try again later.',
+        'การสร้างล้มเหลว', 
+        'เกิดข้อผิดพลาดขณะสร้างข้อความอินเทอร์เฟซใหม่ โปรดลองใหม่อีกครั้งในภายหลัง.',
         error.message
       )],
       ephemeral: true
@@ -519,8 +518,8 @@ async function handleVoiceLock(interaction) {
     if (!tempChannel) {
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'No Channel Found', 
-          'You do not have an active temporary voice channel.'
+          'ไม่พบช่องสัญญาณ', 
+          'คุณไม่มีช่องสัญญาณเสียงชั่วคราวที่ใช้งานอยู่.'
         )],
         ephemeral: true
       });
@@ -532,8 +531,8 @@ async function handleVoiceLock(interaction) {
       await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
+          'ไม่พบช่อง', 
+          'ช่องเสียงชั่วคราวของคุณไม่มีอยู่อีกต่อไปแล้ว.'
         )],
         ephemeral: true
       });
@@ -553,12 +552,12 @@ async function handleVoiceLock(interaction) {
 
     await interaction.editReply({
       embeds: [createSuccessEmbed(
-        isLocked ? 'Channel Unlocked' : 'Channel Locked', 
-        `Your voice channel has been ${isLocked ? 'unlocked' : 'locked'}.`,
+        isLocked ? 'ช่องถูกปลดล็อกแล้ว' : 'ช่องถูกล็อก', 
+        `ช่องเสียงของคุณได้รับการเปิดใช้งานแล้ว ${isLocked ? 'unlocked' : 'locked'}.`,
         [
           { 
-            name: 'Channel Details', 
-            value: `Name: ${channel.name}\nStatus: ${isLocked ? '🔓 Public' : '🔒 Private'}`, 
+            name: 'รายละเอียดช่อง', 
+            value: `ชื่อ: ${channel.name}\nสถานะ: ${isLocked ? '🔓 สาธารณะ' : '🔒 ส่วนตัว'}`, 
             inline: false 
           }
         ]
@@ -566,11 +565,11 @@ async function handleVoiceLock(interaction) {
       ephemeral: true
     });
   } catch (error) {
-    console.error('Error locking/unlocking voice channel:', error);
+    console.error('เกิดข้อผิดพลาดในการล็อก/ปลดล็อกช่องสัญญาณเสียง:', error);
     await interaction.editReply({
       embeds: [createErrorEmbed(
-        'Action Failed', 
-        'An error occurred while locking/unlocking your voice channel. Please try again later.',
+        'การดำเนินการล้มเหลว', 
+        'เกิดข้อผิดพลาดขณะล็อก/ปลดล็อกช่องเสียงของคุณ โปรดลองใหม่อีกครั้งในภายหลัง.',
         error.message
       )],
       ephemeral: true
@@ -595,8 +594,8 @@ async function handleVoiceRename(interaction) {
     if (!tempChannel) {
       return await interaction.editReply({
         embeds: [createErrorEmbed(
-          'No Channel Found', 
-          'You do not have an active temporary voice channel.'
+          'ไม่พบช่องสัญญาณ', 
+          'คุณไม่มีช่องสัญญาณเสียงชั่วคราวที่ใช้งานอยู่.'
         )],
         ephemeral: true
       });
@@ -608,8 +607,8 @@ async function handleVoiceRename(interaction) {
       await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
       return await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
+          'ไม่พบช่อง', 
+          'ช่องเสียงชั่วคราวของคุณไม่มีอยู่อีกต่อไปแล้ว.'
         )],
         ephemeral: true
       });
@@ -623,9 +622,9 @@ async function handleVoiceRename(interaction) {
     // Add components to modal
     const nameInput = new TextInputBuilder()
       .setCustomId('channel_name')
-      .setLabel('New Channel Name')
+      .setLabel('ชื่อช่องใหม่')
       .setStyle(TextInputStyle.Short)
-      .setPlaceholder('Enter a new name for your channel')
+      .setPlaceholder('ตั้งชื่อใหม่ให้กับช่องของคุณ')
       .setMaxLength(100)
       .setRequired(true)
       .setValue(channel.name);
@@ -636,13 +635,13 @@ async function handleVoiceRename(interaction) {
     // Show the modal
     await interaction.showModal(modal);
   } catch (error) {
-    console.error('Error showing rename modal:', error);
+    console.error('เกิดข้อผิดพลาดในการแสดงโมดอลการเปลี่ยนชื่อ:', error);
     try {
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Rename Failed', 
-            'An error occurred while trying to rename your voice channel. Please try again later.',
+            'การเปลี่ยนชื่อล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเปลี่ยนชื่อช่องเสียงของคุณ โปรดลองใหม่อีกครั้งในภายหลัง<.',
             error.message
           )],
           ephemeral: true
@@ -650,15 +649,15 @@ async function handleVoiceRename(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Rename Failed', 
-            'An error occurred while trying to rename your voice channel. Please try again later.',
+            'การเปลี่ยนชื่อล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเปลี่ยนชื่อช่องเสียงของคุณ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to rename interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับการโต้ตอบการเปลี่ยนชื่อ:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -681,8 +680,8 @@ async function handleVoiceLimit(interaction) {
     if (!tempChannel) {
       return await interaction.editReply({
         embeds: [createErrorEmbed(
-          'No Channel Found', 
-          'You do not have an active temporary voice channel.'
+          'ไม่พบช่องสัญญาณ', 
+          'คุณไม่มีช่องสัญญาณเสียงชั่วคราวที่ใช้งานอยู่.'
         )],
         ephemeral: true
       });
@@ -694,8 +693,8 @@ async function handleVoiceLimit(interaction) {
       await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
       return await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
+          'ไม่พบช่อง', 
+          'ช่องเสียงชั่วคราวของคุณไม่มีอยู่อีกต่อไปแล้ว.'
         )],
         ephemeral: true
       });
@@ -703,15 +702,14 @@ async function handleVoiceLimit(interaction) {
 
     // Create modal
     const modal = new ModalBuilder()
-      .setCustomId('limit_channel_modal')
-      .setTitle('Set User Limit');
+      .setTitle('กำหนดขีดจำกัดผู้ใช้');
 
     // Add components to modal
     const limitInput = new TextInputBuilder()
       .setCustomId('user_limit')
-      .setLabel('User Limit (0 = unlimited)')
+      .setLabel('ขีดจำกัดผู้ใช้ (0 = ไม่จำกัด)')
       .setStyle(TextInputStyle.Short)
-      .setPlaceholder('Enter a number between 0 and 99')
+      .setPlaceholder('ป้อนตัวเลขระหว่าง 0 ถึง 99')
       .setMaxLength(2)
       .setRequired(true)
       .setValue(channel.userLimit.toString());
@@ -722,13 +720,13 @@ async function handleVoiceLimit(interaction) {
     // Show the modal
     await interaction.showModal(modal);
   } catch (error) {
-    console.error('Error showing user limit modal:', error);
+    console.error('เกิดข้อผิดพลาดในการแสดงโมดอลจำกัดผู้ใช้:', error);
     try {
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
             'Limit Setting Failed', 
-            'An error occurred while trying to set the user limit. Please try again later.',
+            'เกิดข้อผิดพลาดขณะพยายามตั้งค่าขีดจำกัดผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -736,15 +734,15 @@ async function handleVoiceLimit(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Limit Setting Failed', 
-            'An error occurred while trying to set the user limit. Please try again later.',
+            'การตั้งค่าขีดจำกัดล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามตั้งค่าขีดจำกัดผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to limit interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับเพื่อจำกัดการโต้ตอบ:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -754,12 +752,12 @@ async function handleVoiceLimit(interaction) {
 async function handleVoiceWaiting(interaction) {
   await interaction.reply({
     embeds: [createInfoEmbed(
-      'Feature Coming Soon', 
-      'Waiting room functionality is not implemented in this version.',
+      'ฟีเจอร์ใหม่กำลังจะมาเร็วๆ นี้', 
+      'ฟังก์ชันห้องรอรับสายยังไม่ได้ถูกนำมาใช้ในเวอร์ชันนี้.',
       [
         { 
-          name: 'Alternative', 
-          value: 'You can use the Privacy button to control who can join your channel.', 
+          name: 'ทางเลือก', 
+          value: 'คุณสามารถใช้ปุ่มความเป็นส่วนตัวเพื่อควบคุมว่าใครสามารถเข้าร่วมช่องของคุณได้.', 
           inline: false 
         }
       ]
@@ -772,12 +770,12 @@ async function handleVoiceWaiting(interaction) {
 async function handleVoiceThread(interaction) {
   await interaction.reply({
     embeds: [createInfoEmbed(
-      'Feature Coming Soon', 
-      'Thread creation functionality is not implemented in this version.',
+      'ฟีเจอร์ใหม่กำลังจะมาเร็วๆ นี้', 
+      'ฟังก์ชันการสร้างเธรดไม่ได้ถูกนำมาใช้ในเวอร์ชันนี้.',
       [
         { 
-          name: 'Alternative', 
-          value: 'You can create a text channel in your server for voice channel discussions.', 
+          name: 'ทางเลือก', 
+          value: 'คุณสามารถสร้างช่องข้อความในเซิร์ฟเวอร์ของคุณสำหรับการสนทนาผ่านช่องเสียงได้.', 
           inline: false 
         }
       ]
@@ -797,7 +795,7 @@ async function handleVoiceTrust(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to trust:',
+        content: 'เลือกผู้ใช้ที่คุณต้องการไว้วางใจ:',
         components: result.components,
         ephemeral: true
       });
@@ -805,21 +803,21 @@ async function handleVoiceTrust(interaction) {
       // Just show the error message without manual input option
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Trust Action Failed', 
+          'การดำเนินการด้านความไว้วางใจล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling trust user action:', error);
+    console.error('การจัดการข้อผิดพลาด การดำเนินการที่เชื่อถือได้ของผู้ใช้:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Trust Action Failed', 
-            'An error occurred while trying to trust a user. Please try again later.',
+            'การดำเนินการด้านความไว้วางใจล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเชื่อถือผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -827,15 +825,15 @@ async function handleVoiceTrust(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Trust Action Failed', 
-            'An error occurred while trying to trust a user. Please try again later.',
+            'การดำเนินการด้านความไว้วางใจล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเชื่อถือผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to trust interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับปฏิสัมพันธ์ด้านความไว้วางใจ:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -852,28 +850,28 @@ async function handleVoiceInvite(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to invite:',
+        content: 'เลือกผู้ใช้ที่จะเชิญ:',
         components: result.components,
         ephemeral: true
       });
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Invite Action Failed', 
+          'การดำเนินการเชิญล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling invite user action:', error);
+    console.error('การจัดการข้อผิดพลาด เชิญให้ผู้ใช้ดำเนินการ:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Invite Action Failed', 
-            'An error occurred while trying to invite a user. Please try again later.',
+            'การดำเนินการเชิญล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเชิญผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -881,15 +879,15 @@ async function handleVoiceInvite(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Invite Action Failed', 
-            'An error occurred while trying to invite a user. Please try again later.',
+            'การดำเนินการเชิญล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเชิญผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to invite interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบรับคำเชิญโต้ตอบ:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -906,28 +904,28 @@ async function handleVoiceKick(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to kick:',
+        content: 'เลือกผู้ใช้ที่จะเตะออก:',
         components: result.components,
         ephemeral: true
       });
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Kick Action Failed', 
+          'การเตะล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling kick user action:', error);
+    console.error('การจัดการข้อผิดพลาด การเตะผู้ใช้:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Kick Action Failed', 
-            'An error occurred while trying to kick a user. Please try again later.',
+            'การเตะล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเตะผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -935,15 +933,15 @@ async function handleVoiceKick(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Kick Action Failed', 
-            'An error occurred while trying to kick a user. Please try again later.',
+            'การเตะล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามเตะผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to kick interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับการโต้ตอบการเตะ:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -953,12 +951,12 @@ async function handleVoiceKick(interaction) {
 async function handleVoiceRegion(interaction) {
   await interaction.reply({
     embeds: [createInfoEmbed(
-      'Feature Coming Soon', 
-      'Region change functionality is not implemented in this version.',
+      'ฟีเจอร์ใหม่กำลังจะมาเร็วๆ นี้', 
+      'ฟังก์ชันการเปลี่ยนภูมิภาคยังไม่ได้ถูกนำมาใช้ในเวอร์ชันนี้.',
       [
         { 
-          name: 'Note', 
-          value: 'Discord now automatically optimizes voice regions for all users in the channel.', 
+          name: 'โน๊ต', 
+          value: 'ขณะนี้ Discord จะปรับภูมิภาคเสียงให้เหมาะสมกับผู้ใช้ทุกคนในช่องโดยอัตโนมัติ.', 
           inline: false 
         }
       ]
@@ -978,28 +976,28 @@ async function handleVoiceBlock(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to block:',
+        content: 'เลือกผู้ใช้ที่จะบล็อก:',
         components: result.components,
         ephemeral: true
       });
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Block Action Failed', 
+          'การดำเนินการบล็อกล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling block user action:', error);
+    console.error('การจัดการข้อผิดพลาดบล็อกการกระทำของผู้ใช้:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Block Action Failed', 
-            'An error occurred while trying to block a user. Please try again later.',
+            'การดำเนินการบล็อกล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามบล็อกผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -1007,15 +1005,15 @@ async function handleVoiceBlock(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Block Action Failed', 
-            'An error occurred while trying to block a user. Please try again later.',
+            'การดำเนินการบล็อกล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามบล็อกผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to block interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับการโต้ตอบบล็อก:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -1032,28 +1030,28 @@ async function handleVoiceUnblock(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to unblock:',
+        content: 'เลือกผู้ใช้เพื่อปลดบล็อก:',
         components: result.components,
         ephemeral: true
       });
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Unblock Action Failed', 
+          'การดำเนินการปลดบล็อกล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling unblock user action:', error);
+    console.error('การจัดการข้อผิดพลาดเพื่อปลดบล็อกการกระทำของผู้ใช้:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Unblock Action Failed', 
-            'An error occurred while trying to unblock a user. Please try again later.',
+            'การดำเนินการปลดบล็อกล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามปลดบล็อกผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -1061,15 +1059,15 @@ async function handleVoiceUnblock(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Unblock Action Failed', 
-            'An error occurred while trying to unblock a user. Please try again later.',
+            'การดำเนินการปลดบล็อกล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามปลดบล็อกผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to unblock interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับเพื่อปลดบล็อก:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -1084,12 +1082,12 @@ async function handleVoiceClaim(interaction) {
     if (result.success) {
       await interaction.editReply({
         embeds: [createSuccessEmbed(
-          'Channel Claimed', 
+          'ช่องดังกล่าวได้รับการอ้างสิทธิ์แล้ว', 
           result.message,
           [
             { 
-              name: 'Channel Details', 
-              value: `Name: ${result.channel?.name || 'Unknown'}`, 
+              name: 'รายละเอียดช่อง', 
+              value: `ชื่อ: ${result.channel?.name || 'ไม่ทราบ'}`, 
               inline: false 
             }
           ]
@@ -1099,19 +1097,19 @@ async function handleVoiceClaim(interaction) {
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Claim Failed', 
+          'การเรียกร้องไม่สำเร็จ', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error claiming ownership:', error);
+    console.error('เกิดข้อผิดพลาดในการอ้างสิทธิ์ความเป็นเจ้าของ:', error);
     if (interaction.deferred) {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Claim Failed', 
-          'An error occurred while claiming ownership. Please try again later.',
+          'การเรียกร้องไม่สำเร็จ', 
+          'เกิดข้อผิดพลาดขณะยืนยันความเป็นเจ้าของ โปรดลองใหม่อีกครั้งในภายหลัง.',
           error.message
         )],
         ephemeral: true
@@ -1119,8 +1117,8 @@ async function handleVoiceClaim(interaction) {
     } else {
       await interaction.reply({
         embeds: [createErrorEmbed(
-          'Claim Failed', 
-          'An error occurred while claiming ownership. Please try again later.',
+          'การเรียกร้องไม่สำเร็จ', 
+          'เกิดข้อผิดพลาดขณะยืนยันความเป็นเจ้าของ โปรดลองใหม่อีกครั้งในภายหลัง.',
           error.message
         )],
         ephemeral: true
@@ -1140,28 +1138,28 @@ async function handleVoiceTransfer(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to transfer ownership to:',
+        content: 'เลือกผู้ใช้ที่จะโอนกรรมสิทธิ์ให้:',
         components: result.components,
         ephemeral: true
       });
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Transfer Action Failed', 
+          'การโอนย้ายล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling transfer ownership action:', error);
+    console.error('การจัดการข้อผิดพลาด การโอนกรรมสิทธิ์:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Transfer Action Failed', 
-            'An error occurred while trying to transfer ownership. Please try again later.',
+            'การโอนย้ายล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามโอนกรรมสิทธิ์ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -1169,15 +1167,15 @@ async function handleVoiceTransfer(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Transfer Action Failed', 
-            'An error occurred while trying to transfer ownership. Please try again later.',
+            'การโอนย้ายล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามโอนกรรมสิทธิ์ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to transfer interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับการโอนเงิน:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
@@ -1187,12 +1185,12 @@ async function handleVoiceTransfer(interaction) {
 async function handleVoicePermission(interaction) {
   await interaction.reply({
     embeds: [createInfoEmbed(
-      'Feature Coming Soon', 
-      'Voice channel permission management is not implemented in this version.',
+      'ฟีเจอร์ใหม่กำลังจะมาเร็วๆ นี้', 
+      'ในเวอร์ชันนี้ ระบบจัดการสิทธิ์การใช้งานช่องสัญญาณเสียงยังไม่ได้ถูกนำมาใช้.',
       [
         { 
-          name: 'Alternatives', 
-          value: 'You can use the Trust, Untrust, Block, and Unblock buttons to manage user permissions.', 
+          name: 'ทางเลือกอื่นๆ', 
+          value: 'คุณสามารถใช้ปุ่ม เชื่อถือ ไม่เชื่อถือ บล็อก และ ปลดบล็อก เพื่อจัดการสิทธิ์ของผู้ใช้.', 
           inline: false 
         }
       ]
@@ -1217,9 +1215,8 @@ async function handleVoiceDelete(interaction) {
     if (!tempChannel) {
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'No Channel Found', 
-          'You do not have an active temporary voice channel.'
-        )],
+          'ไม่พบช่องสัญญาณ', 
+          'คุณไม่มีช่องสัญญาณเสียงชั่วคราวที่ใช้งานอยู่.'
         ephemeral: true
       });
     }
@@ -1230,8 +1227,8 @@ async function handleVoiceDelete(interaction) {
       await TempVoiceChannel.deleteOne({ channelId: tempChannel.channelId });
       return interaction.editReply({
         embeds: [createErrorEmbed(
-          'Channel Not Found', 
-          'Your temporary voice channel no longer exists.'
+          'ไม่พบช่อง', 
+          'ช่องเสียงชั่วคราวของคุณไม่มีอยู่อีกต่อไปแล้ว.'
         )],
         ephemeral: true
       });
@@ -1246,12 +1243,12 @@ async function handleVoiceDelete(interaction) {
 
     await interaction.editReply({
       embeds: [createSuccessEmbed(
-        'Channel Deleted', 
-        'Your temporary voice channel has been deleted.',
+        'ช่องถูกลบแล้ว', 
+        'ช่องเสียงชั่วคราวของคุณถูกลบแล้ว.',
         [
           { 
-            name: 'Channel Details', 
-            value: `Name: ${channelName}`, 
+            name: 'รายละเอียดช่อง', 
+            value: `ชื่อ: ${channelName}`, 
             inline: false 
           }
         ]
@@ -1259,11 +1256,11 @@ async function handleVoiceDelete(interaction) {
       ephemeral: true
     });
   } catch (error) {
-    console.error('Error deleting voice channel:', error);
+    console.error('เกิดข้อผิดพลาดในการลบช่องเสียง:', error);
     await interaction.editReply({
       embeds: [createErrorEmbed(
-        'Deletion Failed', 
-        'An error occurred while deleting your voice channel. Please try again later.',
+        'การลบไม่สำเร็จ', 
+        'เกิดข้อผิดพลาดขณะลบช่องเสียงของคุณ โปรดลองใหม่อีกครั้งในภายหลัง.',
         error.message
       )],
       ephemeral: true
@@ -1282,28 +1279,28 @@ async function handleVoiceUntrust(interaction) {
     
     if (result.success) {
       await interaction.editReply({
-        content: 'Select a user to untrust:',
+        content: 'เลือกผู้ใช้ที่ต้องการไม่ไว้วางใจ:',
         components: result.components,
         ephemeral: true
       });
     } else {
       await interaction.editReply({
         embeds: [createErrorEmbed(
-          'Untrust Action Failed', 
+          'การกระทำที่ไม่ไว้วางใจล้มเหลว', 
           result.message
         )],
         ephemeral: true
       });
     }
   } catch (error) {
-    console.error('Error handling untrust user action:', error);
+    console.error('การจัดการข้อผิดพลาด การกระทำของผู้ใช้ที่ไม่น่าเชื่อถือ:', error);
     try {
       // Check if the interaction can still be replied to
       if (interaction.deferred) {
         await interaction.editReply({
           embeds: [createErrorEmbed(
-            'Untrust Action Failed', 
-            'An error occurred while trying to untrust a user. Please try again later.',
+            'การกระทำที่ไม่ไว้วางใจล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามยกเลิกการเชื่อถือผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
@@ -1311,15 +1308,15 @@ async function handleVoiceUntrust(interaction) {
       } else {
         await interaction.reply({
           embeds: [createErrorEmbed(
-            'Untrust Action Failed', 
-            'An error occurred while trying to untrust a user. Please try again later.',
+            'การกระทำที่ไม่ไว้วางใจล้มเหลว', 
+            'เกิดข้อผิดพลาดขณะพยายามยกเลิกการเชื่อถือผู้ใช้ โปรดลองใหม่อีกครั้งในภายหลัง.',
             error.message
           )],
           ephemeral: true
         });
       }
     } catch (replyError) {
-      console.error('Error replying to untrust interaction:', replyError);
+      console.error('เกิดข้อผิดพลาดในการตอบกลับปฏิสัมพันธ์ที่ไม่น่าเชื่อถือ:', replyError);
       // At this point, we can't do anything more with this interaction
     }
   }
